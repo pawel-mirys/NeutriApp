@@ -9,10 +9,11 @@ type FormValues = {
 };
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit, reset } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     onSearch(data.searchTerm);
+    reset();
   };
 
   return (
