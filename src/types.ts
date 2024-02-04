@@ -21,4 +21,15 @@ export type ParsedFoodData = {
       food: Food;
     }
   ];
+  hints: [
+    {
+      food: Food;
+    }
+  ];
+  _links: {
+    next: {
+      title: string;
+      href: string;
+    };
+  };
 };
