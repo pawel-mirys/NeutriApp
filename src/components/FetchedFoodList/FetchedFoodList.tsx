@@ -12,7 +12,7 @@ const FetchedFoodList: React.FC<FetchedFoodListProps> = ({ data }) => {
     );
   });
 
-  return <div>{list}</div>;
+  return <div className='grid grid-cols-6 gap-10 mx-10 mt-5'>{list}</div>;
 };
 
 export default FetchedFoodList;
