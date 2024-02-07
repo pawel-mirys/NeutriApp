@@ -12,7 +12,11 @@ const FetchedFoodList: React.FC<FetchedFoodListProps> = ({ data }) => {
     );
   });
 
-  return <div className='grid grid-cols-6 gap-10 mx-10 mt-5'>{list}</div>;
+  return (
+    <div className='flex flex-row flex-wrap items-start justify-center gap-10 mx-10 mt-5 '>
+      {list}
+    </div>
+  );
 };
 
 export default FetchedFoodList;
