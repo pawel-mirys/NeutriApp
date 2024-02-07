@@ -6,13 +6,28 @@ type FoodCardProps = {
   food: Food;
 };
 
+type NutrientLabels = {
+  [key: string]: string;
+};
+
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
+  const nutrientLabels: NutrientLabels = {
+    ENERC_KCAL: 'Energy (kcal)',
+    PROCNT: 'Protein',
+    FAT: 'Fat',
+    CHOCDF: 'Carbohydrates',
+    FIBTG: 'Fiber',
+  };
+
   const nutrientsToRender = Object.entries(food.nutrients).map((nutrient) => {
+    const [nutrientKey, nutrientValue] = nutrient;
+    const label = nutrientLabels[nutrientKey] || nutrientKey;
+
     return (
       <p
-        key={nutrient[0]}
-        className='mb-4 text-sm text-neutral-600 dark:text-neutral-200'>
-        {`${nutrient[0]} : ${nutrient[1].toPrecision(4)}`}
+        key={nutrientKey}
+        className='mb-2 text-sm text-neutral-600 dark:text-neutral-200'>
+        {`${label} : ${nutrientValue}`}
       </p>
     );
   });
@@ -39,6 +54,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
         <h5 className='mb-2 text-md font-medium leading-tight text-neutral-800 dark:text-neutral-50'>
           {food.label}
         </h5>
+        <p className='font-bold text-sm mb-1'>In 100g:</p>
         {nutrientsToRender}
         <TERipple>
           <button
