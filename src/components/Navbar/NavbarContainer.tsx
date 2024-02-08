@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 
 import AdbIcon from '@mui/icons-material/Adb';
+import { useNavigate } from 'react-router-dom';
 
 type NavbarContainerProps = {
   elements: JSX.Element[];
@@ -18,6 +19,8 @@ const NavbarContainer: React.FC<NavbarContainerProps> = ({ elements }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -33,10 +36,12 @@ const NavbarContainer: React.FC<NavbarContainerProps> = ({ elements }) => {
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
+            onClick={() => {
+              navigate('');
+            }}
             variant='h6'
             noWrap
             component='a'
-            href=''
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -86,7 +91,9 @@ const NavbarContainer: React.FC<NavbarContainerProps> = ({ elements }) => {
             variant='h5'
             noWrap
             component='a'
-            href='#app-bar-with-responsive-menu'
+            onClick={() => {
+              navigate('');
+            }}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },

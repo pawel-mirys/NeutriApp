@@ -2,7 +2,7 @@
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import Modal from '@/components/Modal/Modal';
-import { FoodLists } from '@/types';
+import { FoodLists, UserList } from '@/types';
 
 const ListCreator = () => {
   const [listName, setListName] = useState('');
@@ -13,7 +13,10 @@ const ListCreator = () => {
   };
 
   const handleSubmit = () => {
-    const newFoodArr = [...foodLists, { listName: listName, foodLists: [] }];
+    const newFoodArr: UserList[] = [
+      ...foodLists,
+      { listName: listName, foodList: [] },
+    ];
     localStorage.setItem('foodLists', JSON.stringify(newFoodArr));
   };
 
