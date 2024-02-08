@@ -1,41 +1,47 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import Form from '../Form/Form';
+import FormInput from '../FormInput/FormInput';
 
 type SearchFormProps = {
   onSearch: (searchTerms: string) => void;
 };
 
-type FormValues = {
+type Inputs = {
   searchTerm: string;
 };
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
-  const { register, handleSubmit, reset } = useForm<FormValues>();
+  const { control, getValues, handleSubmit, setError, reset } =
+    useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    onSearch(data.searchTerm);
+  const inputs = (
+    <div className='w-full'>
+      <FormInput
+        type='text'
+        control={control}
+        name='searchTerm'
+        label='Search food'
+      />
+    </div>
+  );
+
+  const handleSearch = (inputsData: Inputs) => {
+    const { searchTerm } = getValues();
+    if (!searchTerm) {
+      setError('searchTerm', { message: 'Food name is required' });
+    } else {
+      onSearch(inputsData.searchTerm);
+    }
     reset();
   };
 
   return (
-    <div className='w-5/6 m-auto'>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-row   m-auto mt-5'>
-        <label className='w-full '>
-          Search Food
-          <input
-            {...register('searchTerm')}
-            type='text'
-            placeholder='Food You want to find'
-            className='px-4 py-3  bg-gray-100 w-full text-sm outline-none border-b-2 border-blue-500 rounded'
-          />
-        </label>
-        <button
-          type='submit'
-          className='!mt-6  px-4 py-2.5  block text-sm font-semibold bg-blue-500 text-white rounded hover:bg-blue-600'>
-          Search
-        </button>
-      </form>
+    <div className='mt-5 w-3/4 m-auto'>
+      <Form
+        handleSubmit={handleSubmit(handleSearch)}
+        inputs={inputs}
+        submitButtonLabel='Search'
+      />
     </div>
   );
 };
