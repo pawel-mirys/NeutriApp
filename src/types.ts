@@ -2,6 +2,7 @@ export type Food = {
   foodId: string;
   label: string;
   knownAs: string;
+  measure: number;
   nutrients: {
     ENERC_KCAL: number;
     PROCNT: number;
@@ -16,11 +17,6 @@ export type Food = {
 
 export type ParsedFoodData = {
   text: string;
-  parsed: [
-    {
-      food: Food;
-    }
-  ];
   hints: [
     {
       food: Food;
@@ -33,3 +29,10 @@ export type ParsedFoodData = {
     };
   };
 };
+
+export type UserList = {
+  listName: string;
+  foodList: Food[];
+};
+
+export type FoodLists = UserList[];

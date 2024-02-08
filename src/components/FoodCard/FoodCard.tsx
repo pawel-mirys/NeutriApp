@@ -23,7 +23,6 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
   const nutrientsToRender = Object.entries(food.nutrients).map((nutrient) => {
     const [nutrientKey, nutrientValue] = nutrient;
     const label = nutrientLabels[nutrientKey] || nutrientKey;
-
     return (
       <p
         key={nutrientKey}
