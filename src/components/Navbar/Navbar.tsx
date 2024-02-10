@@ -1,23 +1,24 @@
 import NavbarContainer from '@/components/Navbar/NavbarContainer';
 import ListCreator from '../ListCreator/ListCreator';
+import { useAppSelector } from '@/store';
+import { useEffect, useState } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 
-import { useAppSelector } from '@/store';
-
-import { FoodLists } from '@/types';
-
 const Navbar: React.FC = () => {
-  const listState = useAppSelector((state) => state.LS_listState.list);
-  const parsedListState: FoodLists = listState && JSON.parse(listState);
+  const [menuItems, setMenuItems] = useState<string[]>([]);
+  const listState = useAppSelector((state) => state.LS_listState);
 
-  const menuItems = () => {
-    if (listState) {
-      return parsedListState.map((item) => item.listName);
+  useEffect(() => {
+    if (listState.list) {
+      // Wyczyść stan menuItems przed dodaniem nowych elementów
+      setMenuItems([]);
+      listState.list.forEach((item) => {
+        setMenuItems((prev) => [...prev, item.listName]);
+      });
     }
-    return [];
-  };
+  }, [listState]);
 
-  const navElements = [<ListCreator />, <Dropdown menuItems={menuItems()} />];
+  const navElements = [<ListCreator />, <Dropdown menuItems={menuItems} />];
 
   return <NavbarContainer elements={navElements} />;
 };

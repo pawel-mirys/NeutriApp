@@ -2,7 +2,7 @@
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type DropdownProps = {
@@ -10,8 +10,9 @@ type DropdownProps = {
 };
 
 const Dropdown: React.FC<DropdownProps> = ({ menuItems }) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState<string>('');
   const navigate = useNavigate();
+
   const handleChange = (event: SelectChangeEvent) => {
     setName((prev) => (prev = event.target.value));
   };
@@ -20,6 +21,7 @@ const Dropdown: React.FC<DropdownProps> = ({ menuItems }) => {
     const items = menuItems.map((item) => {
       return (
         <MenuItem
+          value={item}
           key={item}
           onClick={() => {
             navigate(`/list/${item}`);
@@ -53,7 +55,11 @@ const Dropdown: React.FC<DropdownProps> = ({ menuItems }) => {
             fill: 'white !important',
           },
         }}>
-        <MenuItem value=''>
+        <MenuItem
+          value=''
+          onClick={() => {
+            navigate('');
+          }}>
           <em>Select List</em>
         </MenuItem>
         {itemsToRender()}

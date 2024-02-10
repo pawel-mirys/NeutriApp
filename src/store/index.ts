@@ -22,6 +22,6 @@ const useAppSelector: TypedUseSelectorHook<ReturnType<typeof store.getState>> =
 
 export { useFetchFoodByNameQuery } from './apis/parserApi';
 
-export const { setList } = localStorageListSlice.actions;
+export const { setList, updateList } = localStorageListSlice.actions;
 
 export { store, useAppDispatch, useAppSelector };

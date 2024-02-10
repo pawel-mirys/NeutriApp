@@ -2,22 +2,23 @@
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import Modal from '@/components/Modal/Modal';
-import { FoodLists, UserList } from '@/types';
+import { updateList, useAppDispatch } from '@/store';
 
 const ListCreator = () => {
+  const dispatch = useAppDispatch();
   const [listName, setListName] = useState('');
-  const foodLists: FoodLists = JSON.parse(localStorage.getItem('foodLists')!);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListName((prev) => (prev = event.target.value));
   };
 
   const handleSubmit = () => {
-    const newFoodArr: UserList[] = [
-      ...foodLists,
-      { listName: listName, foodList: [] },
-    ];
-    localStorage.setItem('foodLists', JSON.stringify(newFoodArr));
+    if (listName === '') {
+      console.log('err');
+    } else {
+      dispatch(updateList({ listName: listName, foodList: [] }));
+      setListName('');
+    }
   };
 
   const modalForm = (
