@@ -2,14 +2,15 @@
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type DropdownProps = {
   menuItems: string[];
+  variant?: 'white' | 'blue';
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ menuItems }) => {
+const Dropdown: React.FC<DropdownProps> = ({ menuItems, variant = 'blue' }) => {
   const [name, setName] = useState<string>('');
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ const Dropdown: React.FC<DropdownProps> = ({ menuItems }) => {
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         sx={{
-          color: 'white',
+          color: (variant = 'white' && 'white'),
           '.MuiOutlinedInput-notchedOutline': {
             borderColor: 'rgba(255, 255, 255, 0.7)',
           },

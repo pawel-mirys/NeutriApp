@@ -30,9 +30,9 @@ export type ParsedFoodData = {
   };
 };
 
-export type UserList = {
+export type FoodList = {
   listName: string;
   foodList: Food[];
 };
 
-export type FoodLists = UserList[];
+export type FoodLists = FoodList[];

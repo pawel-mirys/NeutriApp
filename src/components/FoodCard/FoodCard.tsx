@@ -2,7 +2,8 @@ import styles from './FoodCard.module.scss';
 import { clsx } from 'clsx';
 import { Food } from '@/types';
 import { TERipple } from 'tw-elements-react';
-import Dropdown from '../Dropdown/Dropdown';
+import Modal from '@/components/Modal/Modal';
+
 type FoodCardProps = {
   food: Food;
 };
@@ -57,7 +58,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
         <p className='font-bold text-sm mb-1'>In 100g:</p>
         {nutrientsToRender}
         <TERipple>
-          <Dropdown />
+          <Modal triggerButtonTitle={''} modalTitle={''} modalContent={''} closeButtonText={''} submitButtonText={''} onSubmit={function (): void {
+            throw new Error('Function not implemented.');
+          } } />
         </TERipple>
       </div>
     </div>

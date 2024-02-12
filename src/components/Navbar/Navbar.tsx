@@ -10,7 +10,6 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     if (listState.list) {
-      // Wyczyść stan menuItems przed dodaniem nowych elementów
       setMenuItems([]);
       listState.list.forEach((item) => {
         setMenuItems((prev) => [...prev, item.listName]);

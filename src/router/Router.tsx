@@ -1,11 +1,11 @@
 import Home from '@/pages/Home/Home';
-import UserList from '@/pages/UserList/UserList';
+import UserList from '@/pages/UserFoodList/UserFoodList';
 import { Route, Routes } from 'react-router-dom';
 
 const RouterSwitch = () => {
   return (
     <Routes>
-      <Route path='/list/:name' element={<UserList />} />
+      <Route path='/list/:listName' element={<UserList />} />
       <Route path='/' element={<Home />} />
     </Routes>
   );
