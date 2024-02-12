@@ -1,10 +1,24 @@
-import Home from './pages/home/Home';
+import { HashRouter } from 'react-router-dom';
+import Navbar from '@/components/Navbar/Navbar';
+import RouterSwitch from '@/router/Router';
+import { useEffect } from 'react';
+import { FoodLists } from './types';
 
 function App() {
+  const key = 'foodLists';
+  useEffect(() => {
+    const existingFoodList: FoodLists = JSON.parse(localStorage.getItem(key)!);
+    if (existingFoodList === null) {
+      const initFoodLists: FoodLists = [];
+      localStorage.setItem(key, JSON.stringify(initFoodLists));
+    }
+  }, []);
+
   return (
-    <div>
-      <Home />
-    </div>
+    <HashRouter>
+      <Navbar />
+      <RouterSwitch />
+    </HashRouter>
   );
 }
 

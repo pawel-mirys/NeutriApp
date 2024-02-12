@@ -1,49 +1,71 @@
-import React, { useState } from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Dropdown: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>('');
+type DropdownProps = {
+  menuItems: string[];
+  variant?: 'white' | 'blue';
+};
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+const Dropdown: React.FC<DropdownProps> = ({ menuItems, variant = 'blue' }) => {
+  const [name, setName] = useState<string>('');
+  const navigate = useNavigate();
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setName((prev) => (prev = event.target.value));
   };
 
-  const selectOption = (option: string) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-    console.log('Wybrano opcję:', option, selectedOption);
+  const itemsToRender = () => {
+    const items = menuItems.map((item) => {
+      return (
+        <MenuItem
+          value={item}
+          key={item}
+          onClick={() => {
+            navigate(`/list/${item}`);
+          }}>
+          {item}
+        </MenuItem>
+      );
+    });
+    return items;
   };
 
   return (
-    <div className='relative inline-block'>
-      <button
-        className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none'
-        onClick={toggleDropdown}>
-        Select list
-        {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-      </button>
-      {isOpen && (
-        <ul className='absolute z-10 mt-2 w-40 bg-white border border-gray-300 rounded shadow-lg'>
-          <li
-            className='cursor-pointer px-4 py-2 hover:bg-gray-100'
-            onClick={() => selectOption('Option 1')}>
-            List 1
-          </li>
-          <li
-            className='cursor-pointer px-4 py-2 hover:bg-gray-100'
-            onClick={() => selectOption('Option 2')}>
-            List 2
-          </li>
-          <li
-            className='cursor-pointer px-4 py-2 hover:bg-gray-100'
-            onClick={() => selectOption('Option 3')}>
-            List 3
-          </li>
-        </ul>
-      )}
-    </div>
+    <FormControl sx={{ m: 1, minWidth: 120 }} color='primary' size='small'>
+      <Select
+        value={name}
+        onChange={handleChange}
+        displayEmpty
+        inputProps={{ 'aria-label': 'Without label' }}
+        sx={{
+          color: (variant = 'white' && 'white'),
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'rgba(255, 255, 255, 0.7)',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'rgba(255, 255, 255, 0.5)',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'rgba(255, 255, 255, 0.5)',
+          },
+          '.MuiSvgIcon-root ': {
+            fill: 'white !important',
+          },
+        }}>
+        <MenuItem
+          value=''
+          onClick={() => {
+            navigate('');
+          }}>
+          <em>Select List</em>
+        </MenuItem>
+        {itemsToRender()}
+      </Select>
+    </FormControl>
   );
 };
 

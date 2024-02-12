@@ -17,4 +17,7 @@ export default defineConfig({
       store: `${path.resolve(__dirname, './src/store')}`,
     },
   },
+  server: {
+    port: 5200,
+  },
 });
