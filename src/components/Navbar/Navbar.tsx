@@ -6,13 +6,13 @@ import Dropdown from '../Dropdown/Dropdown';
 
 const Navbar: React.FC = () => {
   const [menuItems, setMenuItems] = useState<string[]>([]);
-  const listState = useAppSelector((state) => state.LS_listState);
+  const listState = useAppSelector((state) => state.DB_ListState);
 
   useEffect(() => {
     if (listState.list) {
       setMenuItems([]);
       listState.list.forEach((item) => {
-        setMenuItems((prev) => [...prev, item.listName]);
+        setMenuItems((prev) => [...prev, item.mealName]);
       });
     }
   }, [listState]);

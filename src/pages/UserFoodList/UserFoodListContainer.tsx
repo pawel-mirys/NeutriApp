@@ -1,13 +1,13 @@
-import { FoodList } from '@/types';
+import { Meal } from '@/types';
 
 type UserListContainerProps = {
-  foodList: FoodList;
+  meal: Meal;
 };
 
-const UserListContainer: React.FC<UserListContainerProps> = ({ foodList }) => {
+const UserListContainer: React.FC<UserListContainerProps> = ({ meal }) => {
   return (
     <div>
-      <p>{foodList.listName}</p>
+      <p>{meal.mealName}</p>
     </div>
   );
 };

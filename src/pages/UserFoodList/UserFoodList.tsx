@@ -2,28 +2,28 @@
 import { useParams } from 'react-router-dom';
 import UserListContainer from './UserFoodListContainer';
 import { useEffect, useState } from 'react';
-import { FoodList } from '@/types';
+import { Meal } from '@/types';
 import { useAppSelector } from '@/store';
 
 const UserFoodList: React.FC = () => {
-  const existingList = useAppSelector((state) => state.LS_listState);
+  const existingList = useAppSelector((state) => state.DB_ListState);
 
   const { listName } = useParams<{ listName: string }>();
 
-  const [filteredList, setFilteredList] = useState<FoodList>(Object);
+  const [filteredList, setFilteredList] = useState<Meal>(Object);
 
   useEffect(() => {
     if (existingList.list) {
-      const filteredList = existingList.list.filter(
-        (list) => list.listName === listName
+      const filteredList = existingList.list.find(
+        (list) => list.mealName === listName
       );
-      setFilteredList((prev) => (prev = filteredList[0]));
+      filteredList && setFilteredList(filteredList);
     }
   }, [existingList, listName]);
 
   return (
     <div>
-      <UserListContainer foodList={filteredList} />
+      <UserListContainer meal={filteredList} />
     </div>
   );
 };

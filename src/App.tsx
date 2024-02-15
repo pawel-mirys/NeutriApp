@@ -1,18 +1,23 @@
 import { HashRouter } from 'react-router-dom';
 import Navbar from '@/components/Navbar/Navbar';
 import RouterSwitch from '@/router/Router';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from './db';
+import { setList, useAppDispatch } from './store';
 import { useEffect } from 'react';
-import { FoodLists } from './types';
+
+const { mealList } = db;
 
 function App() {
-  const key = 'foodLists';
+  const dispatch = useAppDispatch();
+
+  const allItems = useLiveQuery(() => {
+    return mealList.toArray();
+  });
+
   useEffect(() => {
-    const existingFoodList: FoodLists = JSON.parse(localStorage.getItem(key)!);
-    if (existingFoodList === null) {
-      const initFoodLists: FoodLists = [];
-      localStorage.setItem(key, JSON.stringify(initFoodLists));
-    }
-  }, []);
+    allItems && dispatch(setList(allItems));
+  }, [allItems, dispatch]);
 
   return (
     <HashRouter>

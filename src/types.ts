@@ -1,4 +1,4 @@
-export type Food = {
+export type Nutrient = {
   foodId: string;
   label: string;
   knownAs: string;
@@ -15,24 +15,9 @@ export type Food = {
   image: string;
 };
 
-export type ParsedFoodData = {
-  text: string;
-  hints: [
-    {
-      food: Food;
-    }
-  ];
-  _links: {
-    next: {
-      title: string;
-      href: string;
-    };
-  };
+export type Meal = {
+  mealName: string;
+  nutrientsList: Nutrient[];
 };
 
-export type FoodList = {
-  listName: string;
-  foodList: Food[];
-};
-
-export type FoodLists = FoodList[];
+export type MealsList = Meal[];

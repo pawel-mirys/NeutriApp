@@ -1,4 +1,4 @@
-import { ParsedFoodData } from '@/types';
+import { Nutrient } from '@/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 const URL = import.meta.env.VITE_APP_URL;
@@ -10,7 +10,7 @@ const parserApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: URL }),
   endpoints(builder) {
     return {
-      fetchFoodByName: builder.query<ParsedFoodData, { ingr: string }>({
+      fetchFoodByName: builder.query<Nutrient, { ingr: string }>({
         query: ({ ingr }) => {
           return {
             url: `/parser`,

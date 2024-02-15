@@ -2,23 +2,19 @@
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import Modal from '@/components/Modal/Modal';
-import { updateList, useAppDispatch } from '@/store';
+import { db } from '@/db';
 
 const ListCreator = () => {
-  const dispatch = useAppDispatch();
+  const { mealList } = db;
+
   const [listName, setListName] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListName((prev) => (prev = event.target.value));
   };
 
-  const handleSubmit = () => {
-    if (listName === '') {
-      console.log('err');
-    } else {
-      dispatch(updateList({ listName: listName, foodList: [] }));
-      setListName('');
-    }
+  const handleSubmit = async () => {
+    await mealList.add({ mealName: listName, nutrientsList: [] });
   };
 
   const modalForm = (
