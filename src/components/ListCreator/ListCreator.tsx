@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import { db } from '@/db';
 
@@ -8,14 +8,29 @@ const ListCreator = () => {
   const { mealList } = db;
 
   const [listName, setListName] = useState('');
+  const [error, setError] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListName((prev) => (prev = event.target.value));
+    setError(false);
   };
 
   const handleSubmit = async () => {
-    await mealList.add({ mealName: listName, nutrientsList: [] });
+    if (listName !== '') {
+      setError(true);
+    } else {
+      await mealList.add({ mealName: listName, nutrientsList: [] });
+      setListName('');
+    }
   };
+
+  const handleCancel = () => {
+    set;
+  };
+
+  useEffect(() => {
+    console.log(listName);
+  }, [listName]);
 
   const modalForm = (
     <div>
@@ -31,8 +46,9 @@ const ListCreator = () => {
             width: '100%',
           },
         }}
+        helperText={error && 'Text field cannot be empty'}
         value={listName || ''}
-        label={'List Name'}
+        label={error ? 'Error' : 'List Name'}
         name={'List Name'}
       />
     </div>
@@ -46,6 +62,8 @@ const ListCreator = () => {
         closeButtonText={'Close'}
         submitButtonText={'Create List'}
         onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        error={error}
       />
     </>
   );

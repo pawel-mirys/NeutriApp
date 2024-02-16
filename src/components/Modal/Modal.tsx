@@ -18,20 +18,31 @@ type ModalProps = {
   closeButtonText: string;
   submitButtonText: string;
   onSubmit: () => void;
+  onCancel?: () => void;
+  error?: boolean;
 };
 
 const Modal: React.FC<ModalProps> = ({
   triggerButtonTitle,
   modalTitle,
   modalContent,
-  closeButtonText,
-  submitButtonText,
+  closeButtonText = 'Close',
+  submitButtonText = 'Submit',
   onSubmit,
+  onCancel,
+  error,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleModalSubmit = () => {
-    onSubmit();
+    if (error) {
+      error && onSubmit();
+      setShowModal(false);
+    }
+  };
+
+  const handleModalCancel = () => {
+    onCancel && onCancel();
     setShowModal(false);
   };
 
@@ -57,7 +68,7 @@ const Modal: React.FC<ModalProps> = ({
               <button
                 type='button'
                 className='box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none'
-                onClick={() => setShowModal(false)}
+                onClick={handleModalCancel}
                 aria-label='Close'>
                 <CloseIcon sx={{ color: 'black' }} />
               </button>
@@ -68,7 +79,7 @@ const Modal: React.FC<ModalProps> = ({
                 <button
                   type='button'
                   className='inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200'
-                  onClick={() => setShowModal(false)}>
+                  onClick={handleModalCancel}>
                   {closeButtonText}
                 </button>
               </TERipple>
