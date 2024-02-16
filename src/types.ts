@@ -16,6 +16,7 @@ export type Nutrient = {
 };
 
 export type Meal = {
+  id?: number;
   mealName: string;
   nutrientsList: Nutrient[];
 };

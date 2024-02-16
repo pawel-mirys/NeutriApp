@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useParams } from 'react-router-dom';
 import UserListContainer from './UserFoodListContainer';
 import { useEffect, useState } from 'react';
