@@ -1,40 +1,50 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import { db } from '@/db';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 const ListCreator = () => {
   const { mealList } = db;
-
   const [listName, setListName] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(true);
+
+  const allItems = useLiveQuery(() => {
+    return mealList.toArray();
+  });
+
+  const allMealsNames = allItems?.map((meal) => {
+    return meal.mealName;
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setListName((prev) => (prev = event.target.value));
-    setError(false);
+    const value = event.target.value;
+    setListName(value);
+    const isValueAlreadyExist = allMealsNames?.some(
+      (mealName) => mealName === value
+    );
+    setError(value.trim() === '' || isValueAlreadyExist!);
+    setListName(value);
   };
 
   const handleSubmit = async () => {
-    if (listName !== '') {
-      setError(true);
-    } else {
-      await mealList.add({ mealName: listName, nutrientsList: [] });
-      setListName('');
+    if (error) {
+      return;
     }
+    await mealList.add({ mealName: listName, nutrientsList: [] });
+    setListName('');
   };
 
   const handleCancel = () => {
-    set;
+    setListName('');
+    setError(true);
   };
-
-  useEffect(() => {
-    console.log(listName);
-  }, [listName]);
 
   const modalForm = (
     <div>
       <TextField
+        error={error}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           handleChange(event);
         }}
@@ -46,10 +56,11 @@ const ListCreator = () => {
             width: '100%',
           },
         }}
-        helperText={error && 'Text field cannot be empty'}
+        helperText={error && 'Field is empty or value already exists'}
         value={listName || ''}
-        label={error ? 'Error' : 'List Name'}
+        label={'List Name'}
         name={'List Name'}
+        color={error ? 'error' : 'primary'}
       />
     </div>
   );

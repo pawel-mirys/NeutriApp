@@ -11,6 +11,7 @@ import {
 } from 'tw-elements-react';
 import { Button } from '@mui/material';
 
+
 type ModalProps = {
   triggerButtonTitle: string;
   modalTitle: string;
@@ -35,9 +36,11 @@ const Modal: React.FC<ModalProps> = ({
   const [showModal, setShowModal] = useState(false);
 
   const handleModalSubmit = () => {
-    if (error) {
-      error && onSubmit();
+    if (!error) {
       setShowModal(false);
+      onSubmit();
+    } else {
+      setShowModal(true);
     }
   };
 
