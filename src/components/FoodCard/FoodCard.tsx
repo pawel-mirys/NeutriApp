@@ -1,11 +1,15 @@
 import styles from './FoodCard.module.scss';
 import { clsx } from 'clsx';
-import { Food } from '@/types';
+import { Ingredient } from '@/types';
 import { TERipple } from 'tw-elements-react';
 import Modal from '@/components/Modal/Modal';
+import { useAppSelector } from '@/store';
+import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { db } from '@/db';
 
 type FoodCardProps = {
-  food: Food;
+  food: Ingredient;
 };
 
 type NutrientLabels = {
@@ -13,6 +17,10 @@ type NutrientLabels = {
 };
 
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
+  const { mealList } = db;
+  const listState = useAppSelector((state) => state.DB_ListState);
+  const [selectedButton, setSellectedButton] = useState<string | null>(null);
+
   const nutrientLabels: NutrientLabels = {
     ENERC_KCAL: 'Energy (kcal)',
     PROCNT: 'Protein',
@@ -32,6 +40,51 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
       </p>
     );
   });
+
+  const modalContent = () => {
+    let content: JSX.Element[] | JSX.Element;
+    if (listState.list?.length === 0) {
+      content = <p>No Lists</p> || '';
+    } else {
+      content = (
+        <div className='flex flex-row  gap-3 '>
+          {listState.list?.map((item) => {
+            const isSelected = selectedButton === item.mealName;
+            return (
+              <Button
+                key={item.mealName}
+                color={isSelected ? 'primary' : 'inherit'}
+                variant='outlined'
+                onClick={() => {
+                  setSellectedButton(item.mealName);
+                }}>
+                {item.mealName}
+              </Button>
+            );
+          }) || []}
+        </div>
+      );
+    }
+    return content;
+  };
+
+  const handleSubmit = async () => {
+    const mealToUpdate = listState.list?.find(
+      (meal) => meal.mealName === selectedButton
+    );
+    if (mealToUpdate) {
+      const updatedIngredientsList = mealToUpdate.ingredientsList
+        ? [...mealToUpdate.ingredientsList, food]
+        : [food];
+      await mealList.update(mealToUpdate.id, {
+        ingredientsList: updatedIngredientsList,
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log(mealList);
+  }, [mealList]);
 
   return (
     <div
@@ -58,9 +111,16 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
         <p className='font-bold text-sm mb-1'>In 100g:</p>
         {nutrientsToRender}
         <TERipple>
-          <Modal triggerButtonTitle={''} modalTitle={''} modalContent={''} closeButtonText={''} submitButtonText={''} onSubmit={function (): void {
-            throw new Error('Function not implemented.');
-          } } />
+          <Modal
+            triggerButtonTitle={'Add to your list'}
+            modalTitle={'Add nutrient to your list'}
+            modalContent={modalContent()}
+            closeButtonText={'Cancel'}
+            submitButtonText={'Add'}
+            onSubmit={handleSubmit}
+            triggerProps={{ variant: 'contained' }}
+            dialogProps={{ size: 'xl' }}
+          />
         </TERipple>
       </div>
     </div>

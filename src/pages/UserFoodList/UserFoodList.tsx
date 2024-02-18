@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import UserListContainer from './UserFoodListContainer';
+import UserFoodListContainer from './UserFoodListContainer';
 import { useEffect, useState } from 'react';
 import { Meal } from '@/types';
 import { useAppSelector } from '@/store';
@@ -22,7 +22,7 @@ const UserFoodList: React.FC = () => {
 
   return (
     <div>
-      <UserListContainer meal={filteredList} />
+      <UserFoodListContainer meal={filteredList} />
     </div>
   );
 };

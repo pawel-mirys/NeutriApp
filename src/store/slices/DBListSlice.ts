@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MealsList } from '@/types';
+import { FetchedFoodData, MealsList } from '@/types';
 
 type DB_ListState = {
   list: MealsList | null;
+  currentData: FetchedFoodData | null;
 };
 
 const initialState: DB_ListState = {
   list: [],
+  currentData: null,
 };
 
 const DBListSlice = createSlice({
@@ -16,6 +18,7 @@ const DBListSlice = createSlice({
     setList: (state, action: PayloadAction<MealsList | null>) => {
       state.list = action.payload;
     },
+
   },
 
   extraReducers: (builder) => {

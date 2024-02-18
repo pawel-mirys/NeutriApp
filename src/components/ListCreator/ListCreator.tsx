@@ -75,6 +75,8 @@ const ListCreator = () => {
         onSubmit={handleSubmit}
         onCancel={handleCancel}
         error={error}
+        dialogProps={{ size: 'sm' }}
+        triggerProps={{ color: 'inherit' }}
       />
     </>
   );

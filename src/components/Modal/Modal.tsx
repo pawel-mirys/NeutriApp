@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { ModalDialogProps } from 'tw-elements-react/dist/types/components/Modal/ModalDialog/types';
+import { ButtonProps } from '@mui/material';
+
 import {
   TERipple,
   TEModal,
@@ -11,7 +14,6 @@ import {
 } from 'tw-elements-react';
 import { Button } from '@mui/material';
 
-
 type ModalProps = {
   triggerButtonTitle: string;
   modalTitle: string;
@@ -21,6 +23,8 @@ type ModalProps = {
   onSubmit: () => void;
   onCancel?: () => void;
   error?: boolean;
+  dialogProps?: ModalDialogProps;
+  triggerProps?: ButtonProps;
 };
 
 const Modal: React.FC<ModalProps> = ({
@@ -32,6 +36,8 @@ const Modal: React.FC<ModalProps> = ({
   onSubmit,
   onCancel,
   error,
+  dialogProps,
+  triggerProps,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -53,8 +59,7 @@ const Modal: React.FC<ModalProps> = ({
     <div>
       <TERipple rippleColor='white'>
         <Button
-          color='inherit'
-          variant='text'
+          {...triggerProps}
           onClick={() => {
             setShowModal(true);
           }}>
@@ -62,7 +67,7 @@ const Modal: React.FC<ModalProps> = ({
         </Button>
       </TERipple>
       <TEModal show={showModal} setShow={setShowModal}>
-        <TEModalDialog>
+        <TEModalDialog {...dialogProps}>
           <TEModalContent>
             <TEModalHeader>
               <h5 className='text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200'>

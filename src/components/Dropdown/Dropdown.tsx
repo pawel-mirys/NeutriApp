@@ -2,50 +2,27 @@
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 type DropdownProps = {
-  menuItems: string[];
+  menuItems: JSX.Element[];
   variant?: 'white' | 'blue';
+  onChange: (event: SelectChangeEvent) => void;
+  defaultItemOnClick?: () => void;
+  selectValue: string;
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ menuItems, variant = 'blue' }) => {
-  const [name, setName] = useState<string>('');
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setName((prev) => (prev = event.target.value));
-  };
-
-  const itemsToRender = () => {
-    const items = menuItems.map((item) => {
-      return (
-        <MenuItem
-          value={item}
-          key={item}
-          onClick={() => {
-            navigate(`/list/${item}`);
-          }}>
-          {item}
-        </MenuItem>
-      );
-    });
-    return items;
-  };
-
-  useEffect(() => {
-    if (location.pathname === '/' || '') {
-      setName('');
-    }
-  }, [location]);
-
+const Dropdown: React.FC<DropdownProps> = ({
+  menuItems,
+  variant = 'blue',
+  onChange,
+  defaultItemOnClick,
+  selectValue,
+}) => {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} color='primary' size='small'>
       <Select
-        value={name}
-        onChange={handleChange}
+        value={selectValue}
+        onChange={onChange}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         sx={{
@@ -63,14 +40,10 @@ const Dropdown: React.FC<DropdownProps> = ({ menuItems, variant = 'blue' }) => {
             fill: 'white !important',
           },
         }}>
-        <MenuItem
-          value=''
-          onClick={() => {
-            navigate('');
-          }}>
+        <MenuItem value='' onClick={defaultItemOnClick}>
           <em>Select List</em>
         </MenuItem>
-        {itemsToRender()}
+        {menuItems}
       </Select>
     </FormControl>
   );

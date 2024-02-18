@@ -8,7 +8,7 @@ type UserListContainerProps = {
   meal: Meal;
 };
 
-const UserListContainer: React.FC<UserListContainerProps> = ({ meal }) => {
+const UserFoodListContainer: React.FC<UserListContainerProps> = ({ meal }) => {
   const { mealList } = db;
   const navigate = useNavigate();
 
@@ -23,8 +23,11 @@ const UserListContainer: React.FC<UserListContainerProps> = ({ meal }) => {
       <Button onClick={handleDeleteList}>
         <DeleteIcon />
       </Button>
+      {meal.ingredientsList &&
+        meal.ingredientsList.map((ingredient) => {
+          return <p>{ingredient.label}</p>;
+        })}
     </div>
   );
 };
-
-export default UserListContainer;
+export default UserFoodListContainer;

@@ -1,4 +1,4 @@
-export type Nutrient = {
+export type Ingredient = {
   foodId: string;
   label: string;
   knownAs: string;
@@ -18,7 +18,22 @@ export type Nutrient = {
 export type Meal = {
   id?: number;
   mealName: string;
-  nutrientsList: Nutrient[];
+  ingredientsList: Ingredient[];
 };
 
 export type MealsList = Meal[];
+
+export type FetchedFoodData = {
+  text: string;
+  hints: [
+    {
+      food: Ingredient;
+    }
+  ];
+  _links: {
+    next: {
+      title: string;
+      href: string;
+    };
+  };
+};
