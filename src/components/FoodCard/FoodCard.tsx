@@ -5,7 +5,7 @@ import { TERipple } from 'tw-elements-react';
 import Modal from '@/components/Modal/Modal';
 import { useAppSelector } from '@/store';
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { db } from '@/db';
 
 type FoodCardProps = {
@@ -44,7 +44,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
   const modalContent = () => {
     let content: JSX.Element[] | JSX.Element;
     if (listState.list?.length === 0) {
-      content = <p>No Lists</p> || '';
+      content = <p>No lists</p>;
     } else {
       content = (
         <div className='flex flex-row  gap-3 '>
@@ -81,10 +81,6 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
       });
     }
   };
-
-  useEffect(() => {
-    console.log(mealList);
-  }, [mealList]);
 
   return (
     <div

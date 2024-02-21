@@ -32,8 +32,9 @@ const ListCreator = () => {
     if (error) {
       return;
     }
-    await mealList.add({ mealName: listName, nutrientsList: [] });
+    await mealList.add({ mealName: listName, ingredientsList: [] });
     setListName('');
+    setError(true);
   };
 
   const handleCancel = () => {

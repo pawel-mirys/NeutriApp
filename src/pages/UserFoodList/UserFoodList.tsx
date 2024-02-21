@@ -22,7 +22,7 @@ const UserFoodList: React.FC = () => {
 
   return (
     <div>
-      <UserFoodListContainer meal={filteredList} />
+      <UserFoodListContainer meal={filteredList} listName={listName} />
     </div>
   );
 };
