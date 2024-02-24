@@ -2,11 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import { parserApi } from './apis/parserApi';
-import { localStorageListSlice } from './slices/localStorageListSlice';
+import { DBListSlice } from './slices/DBListSlice';
 
 const store = configureStore({
   reducer: {
-    LS_listState: localStorageListSlice.reducer,
+    DB_ListState: DBListSlice.reducer,
     [parserApi.reducerPath]: parserApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
@@ -22,6 +22,6 @@ const useAppSelector: TypedUseSelectorHook<ReturnType<typeof store.getState>> =
 
 export { useFetchFoodByNameQuery } from './apis/parserApi';
 
-export const { setList, updateList } = localStorageListSlice.actions;
+export const { setList } = DBListSlice.actions;
 
 export { store, useAppDispatch, useAppSelector };

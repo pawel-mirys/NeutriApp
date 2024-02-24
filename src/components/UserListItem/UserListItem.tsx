@@ -1,7 +1,7 @@
-import { Food } from '@/types';
+import { Ingredient } from '@/types';
 
 type UserListItemProps = {
-  food: Food;
+  food: Ingredient;
 };
 
 type NutrientLabels = {
