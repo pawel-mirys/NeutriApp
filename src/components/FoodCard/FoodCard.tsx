@@ -10,13 +10,21 @@ import { db } from '@/db';
 
 type FoodCardProps = {
   food: Ingredient;
+  variant?: 'user-list' | 'home-list';
+  additionalContent?: JSX.Element | JSX.Element[];
+  className?: string;
 };
 
 type NutrientLabels = {
   [key: string]: string;
 };
 
-const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
+const FoodCard: React.FC<FoodCardProps> = ({
+  food,
+  variant = 'home-list',
+  additionalContent,
+  className,
+}) => {
   const { mealList } = db;
   const listState = useAppSelector((state) => state.DB_ListState);
   const [selectedButton, setSellectedButton] = useState<string | null>(null);
@@ -36,7 +44,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
       <p
         key={nutrientKey}
         className='mb-2 text-sm text-neutral-600 dark:text-neutral-200'>
-        {`${label} : ${nutrientValue}`}
+        {`${label} : ${nutrientValue.toFixed(2)}`}
       </p>
     );
   });
@@ -85,39 +93,39 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
   return (
     <div
       className={clsx(
+        className,
         styles.foodCard,
-        'flex flex-col justify-between rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 '
+        'flex  justify-between rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 '
       )}>
       <TERipple>
         <div className='relative overflow-hidden bg-cover bg-no-repeat'>
           <img
-            className='rounded-t-lg w-full'
+            className='rounded-t-lg w-full h-full object-f'
             src={food.image || '/src/assets/202tqkba.png'}
-            alt=''
           />
-          <a href='#!'>
-            <div className='absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,98%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100'></div>
-          </a>
         </div>
       </TERipple>
       <div className='p-6'>
-        <h5 className='mb-2 text-md font-medium leading-tight text-neutral-800 dark:text-neutral-50'>
+        <h5 className='mb-2 text-md font-bold leading-tight text-neutral-800 dark:text-neutral-50'>
           {food.label}
         </h5>
-        <p className='font-bold text-sm mb-1'>In 100g:</p>
+        <p className='font-medium text-sm mb-3'>In 100g:</p>
         {nutrientsToRender}
-        <TERipple>
-          <Modal
-            triggerButtonTitle={'Add to your list'}
-            modalTitle={'Add nutrient to your list'}
-            modalContent={modalContent()}
-            closeButtonText={'Cancel'}
-            submitButtonText={'Add'}
-            onSubmit={handleSubmit}
-            triggerProps={{ variant: 'contained' }}
-            dialogProps={{ size: 'xl' }}
-          />
-        </TERipple>
+        {additionalContent}
+        {variant === 'home-list' && (
+          <TERipple>
+            <Modal
+              triggerButtonTitle={'Add to your list'}
+              modalTitle={'Add nutrient to your list'}
+              modalContent={modalContent()}
+              closeButtonText={'Cancel'}
+              submitButtonText={'Add'}
+              onSubmit={handleSubmit}
+              triggerProps={{ variant: 'contained' }}
+              dialogProps={{ size: 'xl' }}
+            />
+          </TERipple>
+        )}
       </div>
     </div>
   );

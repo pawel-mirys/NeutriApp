@@ -20,11 +20,7 @@ const UserFoodList: React.FC = () => {
     }
   }, [existingList, listName]);
 
-  return (
-    <div>
-      <UserFoodListContainer meal={filteredList} listName={listName} />
-    </div>
-  );
+  return <UserFoodListContainer meal={filteredList} listName={listName} />;
 };
 
 export default UserFoodList;
